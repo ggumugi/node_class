@@ -5,25 +5,25 @@ const router = express.Router()
 
 // localhost:8000/comments
 // 새로운 댓글 등록
-router.post('/', async (req,res,next)=>{
-    try{
-        const comment = await Comment.create({
-            commenter: req.body.id,
-            comment: req.body.comment,
-        })
-        console.log(comment)
-        res.status(201).json(comment)
-    }catch(err){
-        console.error(err)
-        next(err)
-    }
+router.post('/', async (req, res, next) => {
+   try {
+      const comment = await Comment.create({
+         commenter: req.body.id,
+         comment: req.body.comment,
+      })
+      console.log(comment)
+      res.status(201).json(comment)
+   } catch (err) {
+      console.error(err)
+      next(err)
+   }
 })
 
 // localhost:8000/comments/:id -> comment table의 id
 // 댓글 수정
 router
-    .route('/:id')
-    .patch(async (req, res, next) => {
+   .route('/:id')
+   .patch(async (req, res, next) => {
       try {
          const result = await Comment.update(
             {
@@ -43,7 +43,7 @@ router
          next(err) // 에러를 다음 미들웨어로 전달
       }
    })
-    .delete(async (req, res, next) => {
+   .delete(async (req, res, next) => {
       try {
          const result = await Comment.destroy({
             where: { id: req.params.id }, // 삭제할 댓글의 ID
@@ -57,7 +57,6 @@ router
          console.error(err) // 에러 로그 출력
          next(err) // 에러를 다음 미들웨어로 전달
       }
-})
-
+   })
 
 module.exports = router
