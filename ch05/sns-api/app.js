@@ -10,6 +10,7 @@ const cors = require('cors') // cors 미들웨어 -> api 서버는 반드시 설
 // 라우터 밑 기타모듈 불러오기
 const indexRouter = require('./routes')
 const authRouter = require('./routes/auth')
+const postRouter = require('./routes/post')
 const { sequelize } = require('./models')
 const passportConfig = require('./passport') // passport 폴더의 index.js
 
@@ -55,6 +56,7 @@ app.use(passport.initialize()) // 초기화
 app.use(passport.session()) // Passport와 생성해둔 세션 연결
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
+app.use('/post', postRouter)
 
 app.use((req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`)
@@ -65,6 +67,8 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
    const statusCode = err.status || 500
    const errorMessage = err.message || '서버 내부 오류'
+
+   console.log(err)
 
    req.status(statusCode).json({
       success: false,
