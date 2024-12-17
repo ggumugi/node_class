@@ -54,7 +54,7 @@ router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
        req.body.hashtags = '즐거운 #여행 #맛집'
        hashtags=['#여행','#맛집']
       */
-      const hashtags = req.body.hashtags.match(/#[^s#]*/g) // 정규표현식 #을 기준으로 해시태그 추출
+      const hashtags = req.body.hashtags.match(/#[^\s#]*/g) // 정규표현식 #을 기준으로 해시태그 추출
 
       if (hashtags) {
          // promise.all : 여러개의 비동기 작업을 병렬로 처리, 모든 해시태그가 데이터 베이스에서 생성되거나 찾아질때까지 기다림
@@ -105,7 +105,7 @@ router.post('/', isLoggedIn, upload.single('img'), async (req, res) => {
 })
 
 // 게시물 수정
-router.put('/:id', isLoggedIn, async (req, res) => {
+router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
    try {
       // 게시물 존재 여부 확인
       const post = await Post.findOne({ where: { id: req.params.id, UserId: req.user.id } })
@@ -121,7 +121,7 @@ router.put('/:id', isLoggedIn, async (req, res) => {
          img: req.file ? `/${req.file.filename}` : post.img, // 수정된 이미지 파일이 있으면 교체 없으면 기존
       })
       // 게시물에서 해시태그를 추출해서 존재하는 해시태그는 유지하고 새로운 해시태그를 넣어준다
-      const hashtags = req.body.hashtags.match(/#[^s#]*/g)
+      const hashtags = req.body.hashtags.match(/#[^\s#]*/g)
       if (hashtags) {
          const result = await Promise.all(
             hashtags.map((tag) =>
@@ -218,7 +218,7 @@ router.get('/:id', async (req, res) => {
          post: post,
          message: '게시물 조회',
       })
-   } catch (error) {
+   } catch (err) {
       console.error(err)
       res.status(500).json({
          success: false,
