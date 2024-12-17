@@ -18,7 +18,7 @@ const PostCreatePage = () => {
             })
             .catch((err) => {
                console.error('게시물 등록 실패 : ', err)
-               alert('게시물을 등록할 수 없습니다.')
+               alert('게시물을 등록할 수 없습니다.', err)
             })
       },
       [dispatch, navigate]

@@ -65,7 +65,7 @@ export const createPost = async (postData) => {
             'Content-Type': 'multipart/form-data', // 데이터 형식 지정
          },
       }
-      const response = await snsApi.post('/posts', postData, config)
+      const response = await snsApi.post('/post', postData, config)
       return response
    } catch (err) {
       console.error(`API Request 오류 : ${err.message}`)
@@ -83,7 +83,7 @@ export const updatePost = async (id, postData) => {
             'Content-Type': 'multipart/form-data', // 데이터 형식 지정
          },
       }
-      const response = await snsApi.put(`/posts/${id}`, postData, config)
+      const response = await snsApi.put(`/post/${id}`, postData, config)
       return response
    } catch (err) {
       console.error(`API Request 오류 : ${err.message}`)
@@ -93,7 +93,7 @@ export const updatePost = async (id, postData) => {
 // 포스트 삭제
 export const deletePost = async (id) => {
    try {
-      const response = await snsApi.delete(`/posts/${id}`)
+      const response = await snsApi.delete(`/post/${id}`)
       return response
    } catch (err) {
       console.error(`API Request 오류 : ${err.message}`)
@@ -103,7 +103,18 @@ export const deletePost = async (id) => {
 // 특정 포스트 가져오기
 export const getPostById = async (id) => {
    try {
-      const response = await snsApi.get(`/posts/${id}`)
+      const response = await snsApi.get(`/post/${id}`)
+      return response
+   } catch (err) {
+      console.error(`API Request 오류 : ${err.message}`)
+      throw err
+   }
+}
+
+// 전체 게시물 보기
+export const getPosts = async (page) => {
+   try {
+      const response = await snsApi.get(`/post?page=${page}`)
       return response
    } catch (err) {
       console.error(`API Request 오류 : ${err.message}`)

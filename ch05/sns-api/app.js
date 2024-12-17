@@ -56,7 +56,7 @@ app.use(passport.initialize()) // 초기화
 app.use(passport.session()) // Passport와 생성해둔 세션 연결
 app.use('/', indexRouter)
 app.use('/auth', authRouter)
-app.use('/posts', postRouter)
+app.use('/post', postRouter)
 
 app.use((req, res, next) => {
    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`)
