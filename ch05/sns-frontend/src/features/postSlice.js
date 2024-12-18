@@ -78,6 +78,18 @@ const postSlice = createSlice({
             state.error = action.payload
          })
       builder
+         .addCase(updatePostThunk.pending, (state) => {
+            state.loading = true
+            state.error = null
+         })
+         .addCase(updatePostThunk.fulfilled, (state, action) => {
+            state.loading = false
+         })
+         .addCase(updatePostThunk.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+         })
+      builder
          .addCase(fetchPostsThunk.pending, (state) => {
             state.loading = true
             state.error = null

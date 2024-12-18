@@ -50,9 +50,15 @@ const PostForm = ({ onSubmit, initialValues = {} }) => {
          }
 
          const formData = new FormData() // 폼 데이터를 쉽게 생성하고 전송할 수 있게 하는 객체
+         // 파일명 인코딩(한글 파일명 깨짐 방지)
+
          formData.append('content', content)
          formData.append('hashtags', hashtags)
-         formData.append('img', imgFile)
+         if (imgFile) {
+            const encodedFile = new File([imgFile], encodeURIComponent(imgFile.name), { type: imgFile.type })
+
+            formData.append('img', encodedFile) //이미지 파일 추가
+         }
 
          onSubmit(formData) // formData 객체를 전송
       },
