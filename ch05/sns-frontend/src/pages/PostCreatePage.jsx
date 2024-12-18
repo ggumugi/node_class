@@ -1,11 +1,9 @@
 import { Container } from '@mui/material'
 import PostForm from '../components/post/PostForm'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { createPostThunk } from '../features/postSlice'
 import { useCallback } from 'react'
 const PostCreatePage = () => {
-   const navigate = useNavigate()
    const dispatch = useDispatch()
 
    const handleSubmit = useCallback(
@@ -22,7 +20,7 @@ const PostCreatePage = () => {
                alert('게시물을 등록할 수 없습니다.', err)
             })
       },
-      [dispatch, navigate]
+      [dispatch]
    )
    return (
       <Container maxWidth="md">

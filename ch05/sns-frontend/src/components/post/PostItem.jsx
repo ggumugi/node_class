@@ -5,9 +5,25 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder'
 import { Link } from 'react-router-dom'
 import dayjs from 'dayjs' // 날짜 시간 포맷해주는 패키지
 import { useCallback } from 'react'
+import { useDispatch } from 'react-redux'
+import { deletePostThunk } from '../../features/postSlice'
 
 const PostItem = ({ post, isAuthenticated, user }) => {
-   const onClickDelete = useCallback((id) => {}, [])
+   const dispatch = useDispatch()
+   const onClickDelete = useCallback(
+      (id) => {
+         dispatch(deletePostThunk(id))
+            .unwrap()
+            .then(() => {
+               window.location.href = '/'
+            })
+            .catch((err) => {
+               console.error('게시물 삭제 실패 : ', err)
+               alert('게시물을 삭제할 수 없습니다.')
+            })
+      },
+      [dispatch]
+   )
    return (
       <Card style={{ margin: '20px 0' }}>
          <CardMedia sx={{ height: 240 }} image={`${process.env.REACT_APP_API_URL}${post.img}`} title={post.content} />

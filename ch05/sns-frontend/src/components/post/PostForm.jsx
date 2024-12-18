@@ -3,10 +3,13 @@ import { TextField, Button, Box } from '@mui/material'
 
 // 등록, 수정 폼 컴포넌트
 const PostForm = ({ onSubmit, initialValues = {} }) => {
+   /*
+   initialValues 는 특정 post 객체의 값을 json 형태로 갖고있다
+   */
    const [imgUrl, setImgUrl] = useState(initialValues.img ? process.env.REACT_APP_API_URL + initialValues.img : '') // 이미지 경로(파일명 포함)
    const [imgFile, setImgFile] = useState(null) // 이미지 파일 객체
-   const [content, setContent] = useState('') // 게시물 내용
-   const [hashtags, setHashtags] = useState('') // 해시태그
+   const [content, setContent] = useState(initialValues.content || '') // 게시물 내용
+   const [hashtags, setHashtags] = useState(initialValues.Hashtags ? initialValues.Hashtags.map((tag) => `#${tag.title}`).join(' ') : '') // 해시태그
    // 이미지 파일 미리보기
    const handleImageChange = useCallback((e) => {
       // e.target.files는 업로드한 파일 객체를 배열형태로 가져온다
@@ -41,7 +44,7 @@ const PostForm = ({ onSubmit, initialValues = {} }) => {
             return
          }
 
-         if (!imgFile) {
+         if (!imgFile && !initialValues) {
             alert('이미지를 파일을 추가하세요.')
             return
          }
@@ -55,6 +58,10 @@ const PostForm = ({ onSubmit, initialValues = {} }) => {
       },
       [content, hashtags, imgFile, onSubmit]
    )
+
+   // state 변경 등록/ 수정 버튼 재연산 방지
+   const submitButtonLabel = useMemo(() => (initialValues.id ? '수정하기' : '등록하기'), [initialValues.id])
+
    return (
       <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }} encType="multipart/form-data">
          {/* 이미지 업로드 필드 */}
@@ -77,8 +84,7 @@ const PostForm = ({ onSubmit, initialValues = {} }) => {
 
          {/* 등록 / 수정 버튼 */}
          <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
-            {/* {submitButtonLabel} */}
-            등록
+            {submitButtonLabel}
          </Button>
       </Box>
    )
