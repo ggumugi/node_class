@@ -62,7 +62,7 @@ const PostForm = ({ onSubmit, initialValues = {} }) => {
 
          onSubmit(formData) // formData 객체를 전송
       },
-      [content, hashtags, imgFile, onSubmit]
+      [content, hashtags, imgFile, initialValues, onSubmit]
    )
 
    // state 변경 등록/ 수정 버튼 재연산 방지

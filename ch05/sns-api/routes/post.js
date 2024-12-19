@@ -135,7 +135,8 @@ router.put('/:id', isLoggedIn, upload.single('img'), async (req, res) => {
                })
             )
          )
-         await post.addHashtags(result.map((r) => r[0]))
+         // 기존 Hashtag를 전부 교체함
+         await post.setHashtags(result.map((r) => r[0]))
       }
 
       // 업데이트 후 게시물 조회
