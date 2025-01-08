@@ -17,8 +17,7 @@ import ShoppingBasketIcon from '@mui/icons-material/ShoppingBasket'
 import { Link } from 'react-router-dom'
 import { useCallback, useState } from 'react'
 import { useDispatch } from 'react-redux'
-
-import { loginUserThunk } from '../../features/authSlice'
+import { logoutUserThunk } from '../../features/authSlice'
 
 function Navbar({ isAuthenticated, user }) {
    const dispatch = useDispatch()
@@ -26,13 +25,13 @@ function Navbar({ isAuthenticated, user }) {
    const [anchorElUser, setAnchorElUser] = useState(null)
 
    const handleLogout = useCallback(() => {
-      dispatch(loginUserThunk())
+      dispatch(logoutUserThunk())
          .unwrap()
          .then(() => {
-            window.location.href = '/'
+            window.location.href = '/' // 로그아웃시 새로고침
          })
-         .catch((err) => {
-            alert('로그아웃 실패 : ', err)
+         .catch((error) => {
+            alert(`로그아웃 실패: ${error}`)
          })
    }, [dispatch])
 
@@ -51,6 +50,7 @@ function Navbar({ isAuthenticated, user }) {
    const handleCloseUserMenu = useCallback(() => {
       setAnchorElUser(null)
    }, [])
+
    return (
       <AppBar position="fixed" sx={{ backgroundColor: '#fff', color: '#000' }}>
          <Container maxWidth="lg">
