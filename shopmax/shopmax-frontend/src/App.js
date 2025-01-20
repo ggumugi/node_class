@@ -13,9 +13,14 @@ import Home from './pages/Home'
 import ItemCreatePage from './pages/ItemCreatePage'
 import ItemEditPage from './pages/ItemEditPage'
 import ItemListPage from './pages/ItemListPage'
+import ItemSellDetailPage from './pages/ItemSellDetailPage'
 
 import RedirectLoginRoute from './components/auth/RedirectLoginRoute'
+import RedirectLogoutRoute from './components/auth/RedirectLogoutRoute'
 import AdminRoute from './components/auth/AdminRoute'
+import MyOrderListPage from './pages/MyOrderListPage'
+import TokenPage from './pages/TokenPage'
+import ChatPage from './pages/ChatPage'
 
 function App() {
    const dispatch = useDispatch()
@@ -34,6 +39,7 @@ function App() {
          <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/items/detail/:id" element={<ItemSellDetailPage />} />
             <Route
                path="/login"
                element={
@@ -41,6 +47,16 @@ function App() {
                   <RedirectLoginRoute>
                      <LoginPage />
                   </RedirectLoginRoute>
+               }
+            />
+            {/* 주문 내역 */}
+            <Route
+               path="/myorderlist"
+               element={
+                  // 로그아웃 상태일때는 home으로 리다이렉트
+                  <RedirectLogoutRoute>
+                     <MyOrderListPage />
+                  </RedirectLogoutRoute>
                }
             />
 
@@ -72,6 +88,26 @@ function App() {
                   <AdminRoute>
                      <ItemListPage />
                   </AdminRoute>
+               }
+            />
+            {/* 토큰 발급 페이지 */}
+            <Route
+               path="/token"
+               element={
+                  // 관리자가 아닐경우 home으로 리다이렉트
+                  <AdminRoute>
+                     <TokenPage />
+                  </AdminRoute>
+               }
+            />
+            {/* 채팅 페이지 */}
+            <Route
+               path="/chat"
+               element={
+                  // 관리자가 아닐경우 home으로 리다이렉트
+                  <RedirectLogoutRoute>
+                     <ChatPage />
+                  </RedirectLogoutRoute>
                }
             />
          </Routes>
